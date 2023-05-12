@@ -1,0 +1,149 @@
+【Dashboardのデバック準備】
+
+・githubにSSH接続→鍵のジェネレート￥
+https://qiita.com/shizuma/items/2b2f873a0034839e47ce
+
+・Dashboardのクローンをlocalpc内に作成
+
+.venv\Scripts\activate
+
+& c:/Users/54104/git/mdc-dashboard/venv/Scripts/Activate.ps1python
+
+Gitとは、分散型バージョン管理システム
+複数人で1ケのファイルを編集するとき、自分が修正したところを他人に上書きされちゃうなど困りごとがある。
+そんな時に、編集前のファイルを自分のLocalPCに保存してそれを編集する。
+さらに
+”いつ”、”誰が”、”何を”変数したかを管理できるため簡単
+さらに
+それぞれの変更履歴があるので任意の状態に復元できる
+
+Git Bash
+WindowsからLinaxのコマンドを使いたい場合はこれを使う
+
+SourceTree
+Git機能が使えるGUIツール
+
+Git hub
+とはGitを保存・公開するためのWebツール
+・レポジトリ：保存庫
+
+・コミット：ファイル・ディレクトリの変更をリポジトリに記録する作業。
+	　　コミット時にはメッセージを残すのが必須
+
+・コミット（リビジョン）：前回コミットした時との差分。（重複のない英数字40桁の名前）
+・ロック
+・Push：ローカルリポジトリからリモートリポジトリに更新
+・Pull：リモートリポジトリからローカルリポジトリに更新
+・checkout：ブランチ移動
+・ブランチ：masterが本線、ブランチは分岐。みんなでマスターをいじるのはよくないので分岐させましょう
+・stash：コミットしていない変更点があった場合、別のブランチに移動できない（できるがしない方がよい？）その時の変更点の一時保存
+
+・merge：ブランチの統合
+　-fast-forwardマージ：masterブランチの状態が以前から変更されていない場合(今いるブランチの変更点以外に変更されていない場合)
+  -non fast-forwardマージ：変更点がある場合はいい感じに合わせてマージ。masterブランチに新しいコミットを作成
+・rebase：ブランチのもぎ取り、マスターブランチに継木。履歴を一本化する。
+	　rebaseしただけだとMasterも先頭はそのまま、Masterブランチから継木するブランチをマージして先頭を移動させる。
+
+
+・フォーク(forking)
+・プルリクエスト(pull request)
+・マージ(merge)
+・リビジョン
+
+
+・ワークツリー：みんなが作業しているディレクトリ
+・インデックス（ステージング）：リポジトリにコミットする準備のための場所、無駄なものをリポジトリにコミットしないように間引いてくれる
+	・チェックアウト：インデックスからワークツリー
+	・アド（ＡＤＤ）：ワークツリーからインデックス
+・リポジトリ：ファイルやディレクトリの状態を記録するための場所
+	・コミット：インデックスからローカルレポジトリ
+	・リセット：ローカルリポジトリからインデックス
+
+
+
+Gitでよくつかうコマンド
+https://www.slideshare.net/vector.xenon/git-14162471
+
+
+ブランチ使い分け
+http://keijinsonyaban.blogspot.com/2010/10/a-successful-git-branching-model.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# python -m venv <venv_name>：Venvの作成
+# .\<venv_name>\Scripts\activate：仮想環境発動
+
+# pyenv local <version名>：フォルダ内のpythonのバージョンを変更 venv を作成してそこで実行するイメージ
+# pyenv global <version名>:システム全体のバージョンを変更。デフォルトのバージョン設定のイメージ？
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+# git init 今いるディレクトリでGit管理できるようにする(Gitリポジトリに設定?)
+# git add <file_name>：インデックスに登録
+# git commit -m "coment"：インデックスの変更履歴をリポジトリにコミット
+# git status ：現在の状況の確認
+# git log ：リポジトリの変更履歴の表示
+# git remote add <名前> <URL>:リモートリポジトリのＵＲＬを”名前”で保存
+# git push -u <URL> <ブランチ名>：-u は次回以降のブランチ名入力の省略。ＰＵＳＨのコマンド
+				　上げるリモートリポジトリのメアドとＰａｓｓが必要
+# git crone <URL> 登録名(ディレクトリ名) ：ローカルにクローンを作成
+# git pull <URL or 名前> <refspec> ：リモートリポジトリの変更点をローカルに上書き？　refapec(master)ブランチ名？？
+# git log --graph --online：logをグラフ？で可視化
+
+# git branch <branchname>："branchname"のブランチを作成
+# git branch：現在形成されているbranchの確認
+# git branch -d <branch名>：ブランチの削除
+# git checkout <移動先branchname>：ブランチの移動　
+# git checkout -b <branchname>："branchname"のブランチを新規作成して移動
+# git merge <ブランチ名>：マージしたいブランチに移動。その後マージをするとコミットされた変更点が更新させる。
+# git reset --hard HEAD~ ：一個前の状態に戻す
+
+# git rebase <マージ先のブランチ ex)master >：マスターにリベース　checkoutしなくてもmaterに行くイメージ
+→rebaseで変更の競合が発生した場合はcommitではなく、rebase --continueを使う(git add <file名>をしてから）
+#git rebase --continue <ブランチ名？？>
+→　その後、rebase先のブランチに移動し、 # git merge <rebaseしたいブランチ＞
+
+【進捗】
+https://backlog.com/ja/git-tutorial/stepup/13/
+
+
+【疑問】
+ローカルがリモートリポジトリと比較して最新でない場合、どのようなPRになるのか？
+
+
+WIP Work in progress
+git reset HEAD~1　：commitから一個前に戻る　PRがNoだった場合やり直して
+git push -f ：今あるプルリクの上書き
+git commit --amend :コミットメッセージの修正、コミット内容を後から追加
+
+
+
+
